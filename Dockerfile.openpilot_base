@@ -4,6 +4,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get install -y --no-install-recommends \
     autoconf \
     libtool \
+    automake \
     build-essential \
     bzip2 \
     capnproto \
