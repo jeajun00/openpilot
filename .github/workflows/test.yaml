@@ -5,8 +5,8 @@ on:
   status:
 
 env:
-  RUN: docker run --shm-size 1G --rm tmppilot /bin/sh -c
-  PERSIST: docker run --shm-size 1G --name tmppilot tmppilot /bin/sh -c
+  RUN: docker run --shm-size 2G --rm tmppilot /bin/sh -c
+  PERSIST: docker run --shm-size 2G --name tmppilot tmppilot /bin/sh -c
   CI_RUN: docker run -e GITHUB_ACTION -e GITHUB_REF -e GITHUB_HEAD_REF -e GITHUB_SHA -e GITHUB_REPOSITORY -e GITHUB_RUN_ID --rm tmppilotci /bin/bash -c
   UNIT_TEST: coverage run --append -m unittest discover
   BUILD: |
@@ -44,7 +44,7 @@ jobs:
         run: cd $TEST_DIR && eval "$BUILD"
       - name: Build openpilot and run quick check
         run: |
-          $RUN "cd /tmp/openpilot/cereal && ./install_capnp.sh && \
+          $RUN "cd /tmp/openpilot/cereal && ./install_capnp.sh && scons && \
                 cd /tmp/openpilot && \
                 scons -j$(nproc) && \
                 $UNIT_TEST selfdrive/car"
