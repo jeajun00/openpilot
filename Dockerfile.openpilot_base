@@ -5,6 +5,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     autoconf \
     libtool \
     automake \
+    autotools-dev \
+    make \
+    binutils \
     build-essential \
     bzip2 \
     capnproto \
