@@ -44,7 +44,8 @@ jobs:
         run: cd $TEST_DIR && eval "$BUILD"
       - name: Build openpilot and run quick check
         run: |
-          $RUN "cd /tmp/openpilot && \
+          $RUN "cd /tmp/openpilot/cereal && ./install_capnp.sh && \
+                cd /tmp/openpilot && \
                 scons -j$(nproc) && \
                 $UNIT_TEST selfdrive/car"
   #build_mac:
