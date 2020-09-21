@@ -72,42 +72,42 @@ jobs:
   #  - name: Brew cleanup
   #    run: brew cleanup # keeps our cache small
 
-  docker_push:
-    name: docker push
-    runs-on: ubuntu-16.04
-    timeout-minutes: 50
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'commaai/openpilot'
-    needs: static_analysis # hack to ensure slow tests run first since this and static_analysis are fast
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - name: Build Docker image
-        run: eval "$BUILD"
-      - name: Push to dockerhub
-        run: |
-          docker login -u wmelching -p ${{ secrets.COMMA_DOCKERHUB_TOKEN}}
-          docker tag commaai/openpilot-base:latest docker.io/commaai/openpilot-base:latest
-          docker push docker.io/commaai/openpilot-base:latest
-          docker tag tmppilot docker.io/commaai/openpilotci:latest
-          docker push docker.io/commaai/openpilotci:latest
-  docker_push_prebuilt:
-    name: docker push prebuilt
-    runs-on: ubuntu-16.04
-    timeout-minutes: 50
-    if: github.event_name == 'status' && github.repository == 'commaai/openpilot'
-    needs: [static_analysis, unit_tests, process_replay, test_longitudinal, test_car_models]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - name: Build Docker image
-        run: echo "RUN cd /tmp/openpilot && scons -c && scons -j\$(nproc)" >> Dockerfile.openpilotci && eval "$BUILD"
-      - name: Push to dockerhub
-        run: |
-          docker login -u wmelching -p ${{ secrets.COMMA_DOCKERHUB_TOKEN}}
-          docker tag tmppilot docker.io/commaai/openpilot:latest
-          docker push docker.io/commaai/openpilot:latest
+#  docker_push:
+#    name: docker push
+#    runs-on: ubuntu-16.04
+#    timeout-minutes: 50
+#    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && github.repository == 'commaai/openpilot'
+#    needs: static_analysis # hack to ensure slow tests run first since this and static_analysis are fast
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          submodules: true
+#      - name: Build Docker image
+#        run: eval "$BUILD"
+#      - name: Push to dockerhub
+#        run: |
+#          docker login -u wmelching -p ${{ secrets.COMMA_DOCKERHUB_TOKEN}}
+#          docker tag commaai/openpilot-base:latest docker.io/commaai/openpilot-base:latest
+#          docker push docker.io/commaai/openpilot-base:latest
+#          docker tag tmppilot docker.io/commaai/openpilotci:latest
+#          docker push docker.io/commaai/openpilotci:latest
+#  docker_push_prebuilt:
+#    name: docker push prebuilt
+#    runs-on: ubuntu-16.04
+#    timeout-minutes: 50
+#    if: github.event_name == 'status' && github.repository == 'commaai/openpilot'
+#    needs: [static_analysis, unit_tests, process_replay, test_longitudinal, test_car_models]
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          submodules: true
+#      - name: Build Docker image
+#        run: echo "RUN cd /tmp/openpilot && scons -c && scons -j\$(nproc)" >> Dockerfile.openpilotci && eval "$BUILD"
+#      - name: Push to dockerhub
+#        run: |
+#          docker login -u wmelching -p ${{ secrets.COMMA_DOCKERHUB_TOKEN}}
+#          docker tag tmppilot docker.io/commaai/openpilot:latest
+#          docker push docker.io/commaai/openpilot:latest
   static_analysis:
     name: static analysis
     runs-on: ubuntu-16.04
