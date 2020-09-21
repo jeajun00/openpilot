@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir $TEST_DIR
           cp -pR --parents $(cat release/files_common) $TEST_DIR
-          # cp Dockerfile.openpilot_base Dockerfile.openpilotci $TEST_DIR
+          cp Dockerfile.openpilot_base Dockerfile.openpilotci $TEST_DIR
           # need this to build on x86
           cp -pR --parents phonelibs/libyuv phonelibs/snpe \
                            external/bin selfdrive/modeld/runners $TEST_DIR
