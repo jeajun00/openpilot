@@ -46,7 +46,6 @@ scripts/stop_updater.sh
 
 pyextra/.gitignore
 
-rednose/**
 
 cereal/.gitignore
 cereal/__init__.py
