@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     binutils \
     build-essential \
     bzip2 \
-    capnproto \
     libcapnp-dev \
     clang \
     cmake \
